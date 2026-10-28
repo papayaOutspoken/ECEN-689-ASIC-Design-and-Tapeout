@@ -1,0 +1,114 @@
+v 4
+file . "bitsort.vhdl" "e6b8abf776bede80b81d1232d045f586d3076554" "20261021231849.846":
+  entity bit_sorter at 16( 653) + 0 on 61;
+  architecture behaviour of bit_sorter at 38( 1278) + 0 on 62;
+file . "pmu.vhdl" "4b48fcebbfd89640dd0dea1d27e0bc1e649ab0f6" "20261021231849.846":
+  entity pmu at 1( 0) + 0 on 65;
+  architecture behaviour of pmu at 18( 327) + 0 on 66;
+file . "fpu.vhdl" "f4c13bfb1afa4f4ea7697e5a3ec1178cd5b9587a" "20261021231849.846":
+  entity fpu at 3( 38) + 0 on 69;
+  architecture behaviour of fpu at 27( 508) + 0 on 70;
+file . "core.vhdl" "9e65e11ebe8af956acefe23b4c84ea969955e484" "20261021231849.846":
+  entity core at 1( 0) + 0 on 81;
+  architecture behave of core at 64( 1837) + 0 on 82;
+file . "core_debug.vhdl" "f6c0f1a19373094898c75cfe3dd786d73db7ddd5" "20261021231849.846":
+  entity core_debug at 1( 0) + 0 on 79;
+  architecture behave of core_debug at 67( 2255) + 0 on 80;
+file . "writeback.vhdl" "1528abed8a09c38e879987036809e5e5892ea150" "20261021231849.846":
+  entity writeback at 1( 0) + 0 on 77;
+  architecture behaviour of writeback at 33( 826) + 0 on 78;
+file . "dcache.vhdl" "13177374d9e15a0f3006902940ad6e44964c6478" "20261021231849.846":
+  entity dcache at 5( 49) + 0 on 75;
+  architecture rtl of dcache at 56( 1419) + 0 on 76;
+file . "mmu.vhdl" "d12c302da7a531960b9f2ea88cbec88fa2284d1d" "20261021231849.846":
+  entity mmu at 1( 0) + 0 on 73;
+  architecture behave of mmu at 27( 571) + 0 on 74;
+file . "loadstore1.vhdl" "c48b980b491c021ef2618c27eda36e3353fa7481" "20261021231849.846":
+  entity loadstore1 at 1( 0) + 0 on 71;
+  architecture behave of loadstore1 at 48( 1200) + 0 on 72;
+file . "execute1.vhdl" "18f94ae43403a6a9c1da2f39be2e69660ab3b215" "20261021231849.846":
+  entity execute1 at 1( 0) + 0 on 67;
+  architecture behaviour of execute1 at 82( 2261) + 0 on 68;
+file . "nonrandom.vhdl" "8dd8c587623457bb2e8cc0e236617140406a4867" "20261021231849.846":
+  entity random at 1( 0) + 0 on 63;
+  architecture behaviour of random at 16( 306) + 0 on 64;
+file . "divider.vhdl" "6668c6eda27132364db6c07544bf7f13a72a8cf6" "20261021231849.846":
+  entity divider at 1( 0) + 0 on 59;
+  architecture behaviour of divider at 18( 338) + 0 on 60;
+file . "multiply-32s.vhdl" "145d5f142448fc58ea6217ebc053d875680b5315" "20261021231849.846":
+  entity multiply_32s at 1( 0) + 0 on 57;
+  architecture behaviour of multiply_32s at 21( 418) + 0 on 58;
+file . "multiply.vhdl" "3bbc21bf18446d47e71f56038fcdd6aacc54459f" "20261021231849.846":
+  entity multiply at 1( 0) + 0 on 53;
+  architecture behaviour of multiply at 20( 340) + 0 on 54;
+  entity short_multiply at 85( 2614) + 0 on 55;
+  architecture behaviour of short_multiply at 99( 2944) + 0 on 56;
+file . "countbits.vhdl" "dcb45ecfec131e66c0ab6d689ae958ea2514c0a2" "20261021231849.846":
+  entity bit_counter at 1( 0) + 0 on 51;
+  architecture behaviour of bit_counter at 21( 530) + 0 on 52;
+file . "logical.vhdl" "b0395984a4b2853390347b295ea5098395b373b7" "20261021231849.846":
+  entity logical at 1( 0) + 0 on 49;
+  architecture behaviour of logical at 22( 571) + 0 on 50;
+file . "rotator.vhdl" "51c0cd28d491a91d3cd1c280a2809ec706bfb3c5" "20261021231849.846":
+  entity rotator at 1( 0) + 0 on 47;
+  architecture behaviour of rotator at 24( 662) + 0 on 48;
+file . "ppc_fx_insns.vhdl" "087782b4e521da46030775d548ec51b2faef22b0" "20261021231849.846":
+  package ppc_fx_insns at 1( 0) + 0 on 45;
+  package body ppc_fx_insns at 101( 8137) + 0 on 46;
+file . "crhelpers.vhdl" "5772af10fe93c77f8ba1c0e25920445aa0769e83" "20261021231849.846":
+  package crhelpers at 1( 0) + 0 on 43;
+  package body crhelpers at 15( 336) + 0 on 44;
+file . "cr_file.vhdl" "764339fffd13b5f3b55c567a11513d3a8d49cc1a" "20261021231849.846":
+  entity cr_file at 1( 0) + 0 on 41;
+  architecture behaviour of cr_file at 30( 595) + 0 on 42;
+file . "register_file.vhdl" "2f1b51ec5b32a78261cfbec40f2bc5f296bd2b90" "20261021231849.846":
+  entity register_file at 1( 0) + 0 on 39;
+  architecture behaviour of register_file at 38( 990) + 0 on 40;
+file . "decode2.vhdl" "72ac250a5b0e94f602642fa2daeb6c4b1c1c51a4" "20261021231849.846":
+  entity decode2 at 1( 0) + 0 on 37;
+  architecture behaviour of decode2 at 56( 1396) + 0 on 38;
+file . "control.vhdl" "07351c0b4ff7246babde176a3b9600b6ca0a7065" "20261021231849.846":
+  entity control at 1( 0) + 0 on 35;
+  architecture rtl of control at 62( 2079) + 0 on 36;
+file . "insn_helpers.vhdl" "cccf7d9140b302e4f38eed035aae33fa46ed4650" "20261021231849.846":
+  package insn_helpers at 1( 0) + 0 on 21;
+  package body insn_helpers at 51( 3423) + 0 on 22;
+file . "helpers.vhdl" "d0117230fc3612517b0b2cd54a0e97edfb3d8464" "20261021231849.846":
+  package helpers at 1( 0) + 0 on 33;
+  package body helpers at 36( 1718) + 0 on 34;
+file . "decode1.vhdl" "40b32b7e78876e26d0566c3aabf9650beee4b720" "20261021231849.846":
+  entity decode1 at 1( 0) + 0 on 31;
+  architecture behaviour of decode1 at 33( 815) + 0 on 32;
+file . "predecode.vhdl" "26708c74a3ac95bd8bb1a24eec65adcea468d60f" "20261021231849.846":
+  entity predecoder at 4( 104) + 0 on 23;
+  architecture behaviour of predecoder at 28( 728) + 0 on 24;
+file . "icache.vhdl" "de88bfce3818d12496ef0f4507264e56c883ceb8" "20261021231849.846":
+  entity icache at 16( 648) + 0 on 29;
+  architecture rtl of icache at 69( 2272) + 0 on 30;
+file . "cache_ram.vhdl" "62f39ebe66cbe925eebd63b535cd5cfd01fa31b1" "20261021231849.846":
+  entity cache_ram at 1( 0) + 0 on 25;
+  architecture rtl of cache_ram at 27( 730) + 0 on 26;
+file . "plrufn.vhdl" "0f413e5f7eac0704c5fca3dd56c58ae2fb108d46" "20261021231849.846":
+  entity plrufn at 1( 0) + 0 on 27;
+  architecture rtl of plrufn at 19( 465) + 0 on 28;
+file . "utils.vhdl" "9ebf8479cce8af6b4581ba4bd895577211a17653" "20261021231849.845":
+  package utils at 1( 0) + 0 on 11 body;
+  package body utils at 13( 311) + 0 on 12;
+file . "fetch1.vhdl" "8403ad544ddbfaa8618d910b1f78f4ac1c6e5f09" "20261021231849.846":
+  entity fetch1 at 1( 0) + 0 on 19;
+  architecture behaviour of fetch1 at 42( 1082) + 0 on 20;
+file . "wishbone_types.vhdl" "2bca98bf943c24cbf9b9cdcbbccf6a8da5f6e0d0" "20261021231849.846":
+  package wishbone_types at 1( 0) + 0 on 17;
+  package body wishbone_types at 64( 2505) + 0 on 18;
+file . "common.vhdl" "b41854a98a85ebb757120c6d4ccdaac10201f183" "20261021231849.846":
+  package common at 1( 0) + 0 on 15 body;
+  package body common at 964( 39287) + 0 on 16;
+file . "decode_types.vhdl" "d28d6ffa88c24ac12676b33a647fbb619849feaa" "20261021231849.846":
+  package decode_types at 1( 0) + 0 on 13 body;
+  package body decode_types at 511( 13644) + 0 on 14;
+file . "microwatt_top.vhdl" "8a03698457ed13f36dd71de6e839bb23cca17e26" "20261021233527.255":
+  entity microwatt_top at 5( 274) + 0 on 83;
+  architecture rtl of microwatt_top at 44( 1586) + 0 on 84;
+file . "multiply_tb_course.vhdl" "633afa047c7169fa0384d4657cbc1d12c0055af5" "20261021234656.689":
+  entity multiply_tb_course at 4( 203) + 0 on 85;
+  architecture behave of multiply_tb_course at 14( 380) + 0 on 86;
