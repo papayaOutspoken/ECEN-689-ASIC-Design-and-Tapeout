@@ -1,0 +1,43 @@
+================= ECEN 689 Lab 9 answers =================
+Team number: ____
+Members present: ____
+Role assignment this week (name -> squad):
+  Config squad (2):
+  Floorplan squad (2):
+  Verification squad (2):
+
+B1 CONFIG FRONTIER (>=4 rows; one benchmark sim each; paste the full
+   BENCHMARK PASS line for every row):
+   | config (FPU/IC/DC) | cycles | sim wall time | run by |
+   |                    |        |               |        |
+   |                    |        |               |        |
+   |                    |        |               |        |
+   |                    |        |               |        |
+
+B2 FINAL CONFIG CHOICE + 3-sentence justification (cycles vs. area vs. risk):
+
+B3 WORKSHEET (show arithmetic):
+   cell area from synthesis (um^2) = ______
+   H_min = cells / (0.45 * 2900)  = ______   (rounds UP to nearest 50)
+   H_max = cells / (0.35 * 2900)  = ______   (cap at 4050)
+   chosen DIE_AREA heights to try (>=3): ______ , ______ , ______
+
+B4 SYNTHESIS (final config): Number of cells = ______  Chip area = ______ um^2
+   fit check vs 5,800,000: PASS / FAIL
+
+B5 NETLIST CUSTODY: paste `ls -lh` line of runs/RUN_*/*-yosys-vhdlsynthesis/microwatt_top.nl.v
+
+B6 PLACEMENT FRONTIER (>=3 rows, one flow run each):
+   | DIE_AREA (W x H) | util implied | placement result (ok / DPL-0036 / other) | run by |
+   |                  |              |                                          |        |
+   |                  |              |                                          |        |
+   |                  |              |                                          |        |
+
+B7 CHOSEN FLOORPLAN + why (1 sentence) + die mm^2 = ______
+   (sanity: W=2900 <= frame short edge after chip margins? YES required)
+
+B8 PLACEMENT VIEW: filename of screenshot in lab9/ + one observation
+
+B9 PREDICTION for Lab 10 (routing): will your chosen point route cleanly?
+   State your evidence (frontier spacing, utilization, Lab 8 area).
+==========================================================

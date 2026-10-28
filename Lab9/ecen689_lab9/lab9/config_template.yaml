@@ -1,0 +1,48 @@
+meta:
+  flow: VHDLClassic
+DESIGN_NAME: microwatt_top
+VHDL_FILES:
+  - dir::microwatt_src/decode_types.vhdl
+  - dir::microwatt_src/common.vhdl
+  - dir::microwatt_src/wishbone_types.vhdl
+  - dir::microwatt_src/fetch1.vhdl
+  - dir::microwatt_src/utils.vhdl
+  - dir::microwatt_src/plrufn.vhdl
+  - dir::microwatt_src/cache_ram.vhdl
+  - dir::microwatt_src/icache.vhdl
+  - dir::microwatt_src/predecode.vhdl
+  - dir::microwatt_src/decode1.vhdl
+  - dir::microwatt_src/helpers.vhdl
+  - dir::microwatt_src/insn_helpers.vhdl
+  - dir::microwatt_src/control.vhdl
+  - dir::microwatt_src/decode2.vhdl
+  - dir::microwatt_src/register_file.vhdl
+  - dir::microwatt_src/cr_file.vhdl
+  - dir::microwatt_src/crhelpers.vhdl
+  - dir::microwatt_src/ppc_fx_insns.vhdl
+  - dir::microwatt_src/rotator.vhdl
+  - dir::microwatt_src/logical.vhdl
+  - dir::microwatt_src/countbits.vhdl
+  - dir::microwatt_src/multiply.vhdl
+  - dir::microwatt_src/multiply-32s.vhdl
+  - dir::microwatt_src/divider.vhdl
+  - dir::microwatt_src/nonrandom.vhdl
+  - dir::microwatt_src/execute1.vhdl
+  - dir::microwatt_src/loadstore1.vhdl
+  - dir::microwatt_src/mmu.vhdl
+  - dir::microwatt_src/dcache.vhdl
+  - dir::microwatt_src/writeback.vhdl
+  - dir::microwatt_src/core_debug.vhdl
+  - dir::microwatt_src/core.vhdl
+  - dir::microwatt_src/fpu.vhdl
+  - dir::microwatt_src/pmu.vhdl
+  - dir::microwatt_src/bitsort.vhdl
+  - dir::microwatt_src/microwatt_top.vhdl
+GHDL_ARGUMENTS:
+  - "--std=08"
+CLOCK_PORT: clk
+CLOCK_PERIOD: 50          # <- YOUR TARGET in ns (50 = 20 MHz). Changeable per run.
+PDN_MULTILAYER: false     # your core becomes a macro later - it may NOT own met5
+RT_MAX_LAYER: met4        # same reason - do not change
+FP_SIZING: absolute
+DIE_AREA: [0, 0, 2900, 3600]   # <- WIDTH stays 2900. Set HEIGHT from your worksheet.
