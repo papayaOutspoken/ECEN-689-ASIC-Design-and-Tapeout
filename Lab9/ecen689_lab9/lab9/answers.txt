@@ -1,6 +1,6 @@
 ================= ECEN 689 Lab 9 answers =================
-Team number: ____
-Members present: ____
+Team number: 5
+Members present: Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li (Austin), Manoj Kallu, Shivang Bharti,
 Role assignment this week (name -> squad):
   Config squad (2):
   Floorplan squad (2):
