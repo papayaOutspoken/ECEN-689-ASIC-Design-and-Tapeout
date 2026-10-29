@@ -1,0 +1,65 @@
+================= ECEN 689 Lab 9 answers =================
+Team number: ____
+Members present: ____
+Role assignment this week (name -> squad):
+  Config squad (2):
+  Floorplan squad (2):
+  Verification squad (2):
+
+B1 CONFIG FRONTIER (>=4 rows; one benchmark sim each; paste the full
+
+| config (FPU/IC/DC) | cycles | sim wall time | run by |
+|-------------------|--------|---------------|--------|
+| S (FPU/16/16)      | 419    | 5.0 s         | Fidel  |
+| M (FPU/32/32)      | 419    | 5.1 s         | Fidel  |
+| L (FPU/64/64)      | 419    | 5.3 s         | Fidel  |
+| Custom (FPU/64/16) | 419    | 5.1 s         | Fidel  |
+
+B2 FINAL CONFIG CHOICE + 3-sentence justification (cycles vs. area vs. risk):
+All four configurations we simulated (S 16/16, M 32/32, L 64/64, and asymmetric 64/16) gave identical results, `BENCHMARK PASS checksum=500 cycles=419`, because the entire benchmark loop sits at addresses 0x00–0x24, inside a single cache line, so every fetch is a `cache hit` at `idx:00` and cache size cannot affect the cycle count. With cycles giving no basis for choosing, we decided on area and risk: our Lab 8 synthesis measured M at 4,765,381 µm², under the 5,800,000 limit with about 18% headroom, while L doubles the cache storage that already makes up about 74% of the area and was never guaranteed to fit. We chose M over S because it fits with measured margin while keeping larger caches for real programs that exceed one cache line, and S remains our fallback if placement or Lab 10’s routing shows we need more room.
+
+B3 WORKSHEET (show arithmetic):
+   cell area from synthesis (um^2) = 5,272,338
+   H_min = 5,272,338 / (0.45 * 2900) = 5,272,338 / 1305 = 4040.1  -> 4050   (rounds UP to nearest 50)
+   H_max = 5,272,338 / (0.35 * 2900) = 5,272,338 / 1015 = 5194.4  -> 4050   (cap at 4050)
+   chosen DIE_AREA heights to try (>=3): 4050 , 3900 , 3750
+   note: H_min = H_max = 4050, so the safe range is a single height; 3900 (46.6%) and
+         3750 (48.5%) are deliberately denser to locate our placement cliff.
+
+B4 SYNTHESIS (final config): Number of cells = 386,874  Chip area = 5,272,337.84 um^2
+   fit check vs 5,800,000: PASS
+
+B5 NETLIST CUSTODY:
+   -rwx------. 1 1032248 1001409 61M Oct 28 18:20 runs/RUN_2026-10-28_17-55-43/01-yosys-vhdlsynthesis/microwatt_top.nl.v
+
+B6 PLACEMENT FRONTIER (>=3 rows, one flow run each):
+   | DIE_AREA (W x H) | util implied | placement result (ok / DPL-0036 / other) | run by |
+   | 2900 x 4050      | 44.9%        | ok (error.log empty) RUN_2026-10-28_18-36-01 | Fidel  |
+   | 2900 x 3900      | 46.6%        | ok (error.log empty) RUN_2026-10-28_19-25-16 | Fidel  |
+   | 2900 x 3750      | 48.5%        | ok (error.log empty) RUN_2026-10-28_19-26-35 | Fidel  |
+   
+B7 CHOSEN FLOORPLAN: 2900 x 4050 um (RUN_2026-10-28_18-36-01), die = 2.900 mm x 4.050 mm = 11.745 mm^2
+   why: 4050 is the only height inside the 35-45% utilization rule (44.9%), and the reference
+        design only routed cleanly at 42-45%, so we accept placement success at 3900/3750 as data
+        but do not carry a denser point into routing.
+   (sanity: W=2900 <= frame short edge after chip margins? YES - frame short edge is 3166.63 um,
+        leaving 266.63 um (~133 um per side) for chip-level margins)
+
+B8 PLACEMENT VIEW: lab9/lab9_Fidel_Omusilibwa.png
+   observation: the core area is filled edge to edge with no visible empty regions, and the
+        power stripes are evenly spaced vertically across the die, but the I/O pins are not
+        evenly distributed - they cluster on the right edge near mid-height
+        and along the bottom center.
+
+B9 PREDICTION for Lab 10 (routing): YES, we predict 4050 will route cleanly, with moderate confidence.
+   evidence: (1) utilization 44.9% falls inside the reference pass band (42-45%) and below the
+        reference routing failure at 48%; (2) our frontier shows placement succeeds even at
+        48.5% (3750), but the reference design also placed at 48% and then failed routing, so
+        placement success is not routing margin - our real margin is only ~3 points below the
+        known routing cliff; (3) our flow area (5,272,338 um^2) is ~10% larger than Lab 8's
+        4,765,382 um^2 because the flow mapped to larger _2 drive-strength cells, which is why
+        our safe range collapsed to a single height; (4) routing is limited to met4
+        (RT_MAX_LAYER), and the pin clusters seen in B8 are the likely congestion points.
+   if wrong: height cannot grow past 4050, so the fallback is reducing area by switching to
+        config S (16/16) and re-running synthesis and placement.
+==========================================================
