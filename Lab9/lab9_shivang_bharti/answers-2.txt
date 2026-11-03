@@ -1,0 +1,98 @@
+================= ECEN 689 Lab 9 answers =================
+Team number: 5
+Members present: Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li, Manoj Kallu, Shivang Bharti
+Role assignment this week (name -> squad):
+  Config squad (6): Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li, Manoj Kallu, Shivang Bharti
+  Floorplan squad (6): Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li, Manoj Kallu, Shivang Bharti
+  Verification squad (6): Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li, Manoj Kallu, Shivang Bharti
+
+Shivang's alternative proposal: C4 (false/16/8), height 3300 µm.
+This draft is for comparison with the supplied C1 team proposal.
+
+B1 CONFIG FRONTIER
+   | config (FPU/IC/DC) | cycles | sim wall time | run by         |
+   | false/32/16 (C1)  | 419    | 1.96 s        | Daniel Garcia  |
+   | false/16/16 (S)   | 419    | 1.98 s        | Jinzhan Li     |
+   | false/16/32 (C2)  | 419    | 2.02 s        | Manoj Kallu    |
+   | false/2/2 (C3)    | 419    | 1.67 s        | Elan Landau    |
+   | false/16/8 (C4)   | 419    | 2.02 s        | Shivang Bharti |
+
+BENCHMARK PASS lines supplied by the team:
+C1 (Daniel Garcia):  core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+S (Jinzhan Li):      core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+C2 (Manoj Kallu):    core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+C3 (Elan Landau):    core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+C4 (Shivang Bharti): core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+
+B2 CONFIG CHOICE + 3-sentence justification
+Proposed configuration: C4 (CFG_HAS_FPU = false, ICACHE = 16 lines, DCACHE = 8 lines).
+All five tested configurations completed the benchmark in 419 cycles, so this workload provides no measured cycle-count advantage for the larger caches. C4's mapped flow synthesis area is 4,272,735.392004 µm², approximately 12.3% smaller than C1's supplied area of 4,870,476.17 µm², and its three tested heights all completed detailed placement with empty error logs. I propose C4 to reduce area while preserving the measured benchmark cycle count, accepting the smaller cache capacity for workloads beyond this benchmark.
+
+B3 — Height worksheet
+Mapped synthesis area A = 4,272,735.392004 µm²
+Fixed width W = 2900 µm
+
+H_min = A / (0.45 × W)
+      = 4,272,735.392004 / (0.45 × 2900)
+      = 3274.126737 µm
+
+H_max = A / (0.35 × W)
+      = 4,272,735.392004 / (0.35 × 2900)
+      = 4209.591519 µm
+
+Apply the lab's 4050 µm cap.
+Tested heights, rounded to 50 µm: 3300, 3650, 4050 µm.
+
+B4 — Synthesis area and fit check
+Number of cells: 316,884 (final mapped synthesis report).
+Final mapped synthesis area: 4,272,735.392004 µm².
+Fit check vs 5,800,000 µm²: PASS, with 1,527,264.607996 µm² margin (26.33%).
+Fit: PASS. H_min = 3274.13 µm is below the 4050 µm height cap.
+At 2900 × 4050 µm, implied utilization is 36.38%.
+At the proposed 2900 × 3300 µm point, implied utilization is 44.65%.
+
+The earlier synthesis area of 2,019,156.531202 µm² was incomplete: generic combinational cells had unknown area before ABC technology mapping. The final mapped total above is used for the worksheet.
+
+B5 — Gate-level netlist custody
+-rwx------. 1 shivangbharti 1001409 49M Oct 28 19:22 /home/grads/s/shivangbharti/chip_runs/RUN_2026-10-28_19-02-45/01-yosys-vhdlsynthesis/microwatt_top.nl.v
+
+The flow creates and saves the gate-level netlist. Later steps consume it through the run state chain; it is not copied manually between stages.
+
+B6 — Measured placement frontier
+Implied utilization = mapped synthesis area / (W × H) × 100%.
+
+Configuration | W × H (µm) | Implied utilization | error.log result
+16I/8D        | 2900 × 3300 | 44.65%             | Empty — OK
+16I/8D        | 2900 × 3650 | 40.37%             | Empty — OK
+16I/8D        | 2900 × 4050 | 36.38%             | Empty — OK
+
+All three generated detailed-placement outputs. No placement failure occurred among these three points. Any additional failed exploration runs must also be recorded if applicable; these three points do not locate the actual failure boundary.
+
+Additional comparison:
+Metric                                  | H=3300       | H=3650       | H=4050
+HPWL after placement mirroring (µm)      | 19,053,661.6 | 19,722,501.0 | 20,148,343.5
+Final weighted congestion               | 1.0383       | 1.0451       | 1.0423
+Floorplan effective utilization         | 45.1%        | 40.8%        | 36.7%
+Timing-repair buffer count              | 73,414       | 74,395       | 76,066
+
+The floorplan log prints effective utilization as a fraction, e.g. 0.451 = 45.1%. It uses inner core area, whereas the required B6 calculation uses full die area.
+
+B7 — Proposed floorplan choice + die area
+I propose 2900 × 3300 µm for the 16I/8D configuration. It is the smallest tested die, completed detailed placement, and has 44.65% implied utilization. It also has the shortest HPWL and lowest final weighted congestion among the three tested points. Increasing height reduced utilization but did not improve the final congestion metric, so the measured results do not justify choosing a larger die.
+
+Die area = 2.900 mm × 3.300 mm = 9.570 mm².
+Width sanity check: 2900 µm < 3166.63 µm frame short edge.
+
+Proposed config.yaml geometry:
+DIE_AREA: [0, 0, 2900, 3300]
+
+B8 — Placement screenshot and observation
+Screenshot filename for submission: lab9/placement_3300.png
+Observation: The displayed cell pattern is not uniform across the die. The left half appears more uniformly filled, while the central-right region contains irregular lighter patches and denser clusters, including a dense block near the upper-right corner. Regular vertical stripes extend across the layout.
+The screenshot shows placement geometry; its colors alone do not establish routing congestion.
+Submission action: save the supplied screenshot in the project's lab9 folder as placement_3300.png.
+
+B9 — Routing prediction
+I predict that the proposed 16I/8D configuration at 2900 × 3300 µm will route successfully. Its implied utilization of 44.65% lies within the reference design's reported 42–45% successful range and below the reference 48% routing-failure point. It also completed detailed placement with the shortest HPWL and lowest final weighted congestion among the tested heights. All three runs nevertheless reported that the placer could not reach its routability target; the selected point's final weighted congestion was 1.0383. This is a positive prediction based on the measured placement results, rather than a claim that routing has already passed.
+
+Lab 8 area context: the supplied team reference identifies 4,036,619 µm² as the Lab 8 S-configuration area, compared with 4,465,263 µm² in flow synthesis for S. These are S results, not a matched Lab 8/9 comparison for C4. C4's measured flow area of 4,272,735.392004 µm² is used for this proposal; no C4 Lab 8 area was supplied.
