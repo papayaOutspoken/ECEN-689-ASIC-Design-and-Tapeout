@@ -1,0 +1,66 @@
+================= ECEN 689 Lab 9 answers =================
+Team number: 5
+Members present: Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li (Austin), Manoj Kallu, Shivang Bharti,
+Role assignment this week (name -> squad):
+  Config squad (2): all team-members
+  Floorplan squad (2): all team-members
+  Verification squad (2): all team-members
+
+B1 CONFIG FRONTIER (>=4 rows; one benchmark sim each; paste the full
+   BENCHMARK PASS line for every row):
+   | config (FPU/IC/DC) | cycles | sim wall time     | run by          |
+   | false/16/16 (S)    | 419    | 1.98 s            | Jinzhan Li      |
+   | false/16/32 (C2)   | 419    | 2.02 s            | Manoj Kallu     |
+   | false/16/8 (C4)    | 419    | 2.02 s            | Shivang Bharti  |
+   | false/2/2 (C3)     | 419    | 1.67 s            | Elan Landau     |
+   | false/32/16 (C1)   | 419    | 1.96 s            | Daniel Garcia   |
+
+B2 FINAL CONFIG CHOICE + 3-sentence justification (cycles vs. area vs. risk):
+
+The cycles didn't move for any of these designs because the test benchmark fits in 2 instruction cache-lines, so anything larger is gratuitous. It also doesn't benefit from data cache because it isn't re-using a lot of data. As such, using the smallest cache size maximizes the possibility to add other components in future design to improve performance, instead of wasting it on un-helpful cache.
+
+B3 WORKSHEET (show arithmetic):
+   cell area from synthesis (um^2) = 3,763,352
+   H_min = cells / (0.45 * 2900)  = roundup(2,884,50) = 2900  (rounds UP to nearest 50)
+   H_max = cells / (0.35 * 2900)  = min(3,708,4050) =  3,708 = 3750 if rounded up to nearest 50 (cap at 4050)
+   chosen DIE_AREA heights to try (>=3): 2900, 3400, 3600, 3900, 4050
+
+B4 SYNTHESIS (final config): Number of cells = 281618  Chip area = 3763351 um^2
+   fit check vs 5,800,000: PASS / FAIL
+   PASS
+
+B5 NETLIST CUSTODY: paste `ls -lh` line of runs/RUN_*/*-yosys-vhdlsynthesis/microwatt_top.nl.v
+-rwx------. 1 elandau2 1001409 43M Oct 28 18:55 runs/RUN_2026-10-28_18-37-49/01-yosys-vhdlsynthesis/microwatt_top.nl.v
+-rwx------. 1 elandau2 1001409 43M Oct 28 19:56 runs/RUN_2026-10-28_19-37-43/01-yosys-vhdlsynthesis/microwatt_top.nl.v
+-rwx------. 1 elandau2 1001409 43M Oct 28 19:55 runs/RUN_2026-10-28_19-37-48/01-yosys-vhdlsynthesis/microwatt_top.nl.v
+-rwx------. 1 elandau2 1001409 43M Oct 28 22:10 runs/RUN_2026-10-28_21-51-38/01-yosys-vhdlsynthesis/microwatt_top.nl.v
+-rwx------. 1 elandau2 1001409 43M Nov  2 11:00 runs/RUN_2026-11-02_10-42-49/01-yosys-vhdlsynthesis/microwatt_top.nl.v
+-rwx------. 1 elandau2 1001409 43M Nov  2 11:06 runs/RUN_2026-11-02_10-48-33/01-yosys-vhdlsynthesis/microwatt_top.nl.v
+
+B6 PLACEMENT FRONTIER (>=3 rows, one flow run each):
+   | DIE_AREA (W x H) | util implied | placement result (ok / DPL-0036 / other) | run by |
+   | 2900 x 2900 | 0.4475 synthesis estimated utilization | ok (54.2073% detailed placement utilization ) | Elan Landau |
+   | 2900 x 3400 | 0.3816 synthesis estimated utilization | ok (46.6462% detailed placement utilization ) | Elan Landau |
+   | 2900 x 3600 | 0.3604 synthesis estimated utilization | ok (44.193% detailed placement utilization ) | Elan Landau |
+   | 2900 x 3900 | 0.3327 synthesis estimated utilization | ok (41.0029% detailed placement utilization ) | Elan Landau |
+   | 2900 x 4050 | 0.3204 synthesis estimated utilization | ok (39.5604% detailed placement utilization ) | Elan Landau |
+
+B7 CHOSEN FLOORPLAN + why (1 sentence) + die mm^2 = 2900 x 3600 = 10440000
+   (sanity: W=2900 <= frame short edge after chip margins? YES required)
+   YES
+
+This floorplan makes sense because there is no error log and it is above the 42% utilization recommendation but below the 45% upper limit recommendation.
+
+sanity: YES (didn't change 2900 from lab template)
+
+B8 PLACEMENT VIEW: filename of screenshot in lab9/ + one observation
+`klayout_close.png`
+
+The fill is very, though not perfectly, uniform. The center region has a few less dense spots. Also some rows are dense than others. There isn't a clear clustering beyond these minor effects.
+
+B9 PREDICTION for Lab 10 (routing): will your chosen point route cleanly?
+   State your evidence (frontier spacing, utilization, Lab 8 area).
+
+Predict yes. The utilization is within recommended range. There are no particularly egregiously dense regions which would make routing likely to fail.
+No runs had failure to place, implying there's some wiggle room in the particular selected density.
+==========================================================
