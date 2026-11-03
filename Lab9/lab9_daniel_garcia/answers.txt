@@ -1,0 +1,80 @@
+================= ECEN 689 Lab 9 answers =================
+Team number: 5
+Members present: Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li, Manoj Kallu, Shivang Bharti
+Role assignment this week (name -> squad):
+  Config squad (6):  Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li, Manoj Kallu, Shivang Bharti
+  Floorplan squad (6):  Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li, Manoj Kallu, Shivang Bharti
+  Verification squad (6):  Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li, Manoj Kallu, Shivang Bharti
+
+B1 CONFIG FRONTIER (>=4 rows; one benchmark sim each; paste the full
+   BENCHMARK PASS line for every row):
+   | config (FPU/IC/DC) | cycles | sim wall time     | run by          |
+   | false/32/16 (C1)   | 419    | 1.96 s            | Daniel Garcia   |
+   | false/16/16 (S)    | 419    | 1.98 s            | Jinzhan Li      |
+   | false/16/32 (C2)   | 419    | 2.02 s            | Manoj Kallu     |
+   | false/2/2 (C3)     | 419    | 1.67 s            | Elan Landau     |
+   | false/16/8 (C4)    | 419    | 2.02 s            | Shivang Bharti  |
+   
+   BENCHMARK PASS lines:
+   C1 (Daniel Garcia):   core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+   S  (Jinzhan Li):      core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+   C2 (Manoj Kallu):     core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+   C3 (Elan Landau):     core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+   C4 (Shivang Bharti):  core_tb_course.vhdl:108:29:@4295ns:(report note): BENCHMARK PASS checksum=500 cycles=419
+
+B2 FINAL CONFIG CHOICE + 3-sentence justification (cycles vs. area vs. risk):
+Final configuration: C1 (CFG_HAS_FPU = false, ICACHE = 32 lines, DCACHE = 16 lines).
+The benchmark program is only 11 instructions at addresses 0x00-0x28, which fits in a single 64-byte cache line, so after one compulsory instruction-cache miss every instruction fetch was a hit (1 miss and 210 hits in our trace) and all five configurations finished in 419 cycles regardless of cache size.
+Since C1's flow synthesis area of 4,870,476 um^2 is 16% under the 5,800,000 um^2 limit and all three die heights we placed, from 3,800 to 4,050 um (44.2% to 41.5% utilization), passed detailed placement without errors, C1 carries little risk of a density failure.
+Moreover, C1 has a 2 KB instruction cache, which should keep the miss rate low for programs larger than this benchmark.
+
+B3 WORKSHEET (show arithmetic):
+   cell area from synthesis (um^2) = 4,870,476
+   H_min = cells / (0.45 * 2900)  = 4,870,476 / 1,305 = 3,732.2 -> 3,750    (rounds UP to nearest 50)
+   H_max = cells / (0.35 * 2900)  = 4,870,476 / 1,015 = 4,798.5 -> 4,050   (cap at 4050)
+   chosen DIE_AREA heights to try (>=3): 3,800 , 3,900 , 4,050
+
+B4 SYNTHESIS (final config): Number of cells = 356,687  Chip area = 4,870,476.17 um^2
+   fit check vs 5,800,000: PASS
+
+B5 NETLIST CUSTODY: paste `ls -lh` line of runs/RUN_*/*-yosys-vhdlsynthesis/microwatt_top.nl.v
+[daniel-gar09@olympus-login ecen689_lab8]$ ls -lh runs/RUN_*/*-yosys-vhdlsynthesis/microwatt_top.nl.v
+-rwx------. 1 1041278 1001409 56M Oct 28 19:05 runs/RUN_2026-10-28_18-43-43/01-yosys-vhdlsynthesis/microwatt_top.nl.v
+
+B6 PLACEMENT FRONTIER (>=3 rows, one flow run each):
+   | DIE_AREA (W x H) | util implied | placement result (ok / DPL-0036 / other) | run by        |
+   | 2900 x 3800      | 44.2%        | ok (error.log empty)                     | Daniel Garcia |
+   | 2900 x 3900      | 43.1%        | ok (error.log empty)                     | Daniel Garcia |
+   | 2900 x 4050      | 41.5%        | ok (error.log empty)                     | Daniel Garcia |
+
+The chip area is the flow synthesis result of 4,870,476 um^2.
+
+2900 x 3800
+Die area = 2900 x 3800 = 11,020,000 um^2
+Implied utilization = 4,870,476 / 11,020,000 = 0.4420 = 44.2%
+
+2900 x 3900
+Die area = 2900 x 3900 = 11,310,000 um^2
+Implied utilization = 4,870,476 / 11,310,000 = 0.4306 = 43.1%
+
+2900 x 4050
+Die area = 2900 x 4050 = 11,745,000 um^2
+Implied utilization = 4,870,476 / 11,745,000 = 0.4147 = 41.5%
+
+B7 CHOSEN FLOORPLAN + why (1 sentence) + die mm^2 = 11.745 mm^2.
+The chosen floorplan is 2900 x 4050 um because it has the lowest utilization, both implied (41.5%) and after placement (50.4%), and nearly the same half-perimeter wirelength as the denser runs (21.5 m vs 21.4-21.7 m HPWL).
+Die = 2.900 mm x 4.050 mm = 11.745 mm^2.
+   (sanity: W=2900 <= frame short edge after chip margins? YES, 2,900 um <= 3,166.63 um)
+B8 PLACEMENT VIEW: filename of screenshot in lab9/ + one observation
+filename: lab9/placement_4050.png
+At 50.4% utilization after placement (41.5% implied), the cells are not spread evenly. The cells form dense clusters concentrated on the left and upper parts of the die, with a lighter vertical band right of center and sparse strips along the die edges, where mostly tap cells are visible.
+
+B9 PREDICTION for Lab 10 (routing): will your chosen point route cleanly?
+   State your evidence (frontier spacing, utilization, Lab 8 area).
+Yes, we predict that our chosen floorplan will route cleanly.
+All three of our floorplans from 44.2% to 41.5% implied utilization passed detailed placement without errors, and we chose the sparsest one at 41.5% to leave the most free space for routing.
+Our placement runs also showed nearly the same wirelength at every height (21.4 to 21.7 m HPWL), so the taller die gives more routing room without making the wires longer.
+The flow synthesis area is about 10% larger than the lab 8 synthesis area for the same configuration (S increased from 4,036,619 um^2 to 4,465,263 um^2), but C1 still fits under the 5,800,000 um^2 limit with 929,524 um^2 (16%) margin.
+However, the resizer inserted about 84,000 buffers during placement, which together with the tap cells raised the post-placement utilization to 50.4% for the H = 4050 um run.
+The router also flagged high-fanout nets with about 1,000 pins (GRT-0281), which could cause congestion.
+==========================================================

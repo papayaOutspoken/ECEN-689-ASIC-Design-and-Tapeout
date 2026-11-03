@@ -1,0 +1,52 @@
+================= ECEN 689 Lab 9 answers =================
+Team number: 5
+Members present: Daniel Garcia, Elan Landau, Fidel Omusilibwa, Jinzhan Li, Manoj Kallu, Shivang Bharti
+Role assignment this week (name -> squad):
+
+
+B1 CONFIG FRONTIER (>=4 rows; one benchmark sim each; paste the full
+   BENCHMARK PASS line for every row):
+   | config (FPU/IC/DC) | cycles | sim wall time | run by |
+   | C2 (false/16/32)   | 419    | 2.021 s       | Manoj Kallu |
+   BENCHMARK PASS checksum=500 cycles=419
+
+B2 FINAL CONFIG CHOICE + 3-sentence justification (cycles vs. area vs. risk):
+   We selected C2 (FPU disabled, 16 I-cache lines, 32 D-cache lines).
+   The benchmark passed with checksum 500 in 419 cycles.
+   Its synthesis chip area was 4,860,251.366405 um^2, below the 5,800,000 um^2 limit, so it was used for floorplan exploration.
+
+B3 WORKSHEET (show arithmetic):
+   cell area from synthesis (um^2) = 4,860,251.366405
+   H_min = cells / (0.45 * 2900)
+         = 4,860,251.366405 / 1305
+         = 3724.33 um, rounded UP to nearest 50 = 3750 um
+   H_max = cells / (0.35 * 2900)
+         = 4,860,251.366405 / 1015
+         = 4788.43 um, capped at 4050 = 4050 um
+   chosen DIE_AREA heights to try (>=3): 3750, 3900, 4050 um
+
+B4 SYNTHESIS (final config): Number of cells = 258,180
+    Chip area = 4,860,251.366405 um^2
+    Fit check vs 5,800,000: PASS
+
+B5 NETLIST CUSTODY: paste `ls -lh` line of runs/RUN_*/*-yosys-vhdlsynthesis/microwatt_top.nl.v
+   -rwx------ 1 manojkallu 1001409 68M Oct 28 23:02 runs/RUN_2026-10-28_19-14-25/final/nl/microwatt_top.nl.v
+
+B6 PLACEMENT FRONTIER (>=3 rows, one flow run each):
+   | DIE_AREA (W x H) | util implied | placement result (ok / DPL-0036 / other) | run by |
+   | 2900 x 3750      | 44.7%        | ok                                      | Manoj Kallu |
+   | 2900 x 3900      | 43.0%        | ok                                      | Manoj Kallu |
+   | 2900 x 4050      | 41.4%        | ok                                      | Manoj Kallu |
+
+B7 CHOSEN FLOORPLAN + why (1 sentence) + die mm^2 = 11.745
+   Chosen floorplan: 2900 x 4050 um, because it had the lowest implied utilization among the three tested heights.
+   (sanity: W=2900 <= frame short edge after chip margins? YES required)
+
+B8 PLACEMENT VIEW: lab9/lab9_Manoj_Kallu.png
+   Observation: The placed design fills a tall, narrow core; individual logic cells are not distinguishable at this zoom.
+
+B9 PREDICTION for Lab 10 (routing): will your chosen point route cleanly?
+   I predict the 2900 x 4050 um floorplan has the best chance of routing cleanly among the tested options.
+   Evidence: all three placement runs completed, and the chosen floorplan had the lowest implied utilization at 41.4%.
+   Lab 8's chip area was 4,765,381.628797 um^2, slightly below Lab 9's C2 area of 4,860,251.366405 um^2, so routing congestion remains a risk. Routing success must be confirmed by the Lab 10 run.
+==========================================================
