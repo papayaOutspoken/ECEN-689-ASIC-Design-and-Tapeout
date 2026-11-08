@@ -1,0 +1,3 @@
+source run: /home/grads/d/daniel-gar09/chip_runs/RUN_2026-10-29_13-53-56
+Sat Nov  7 09:54:57 CST 2026
+8bbacfc579b98c98c28fdc20d14158f1  macro_kit/microwatt_top.gds
