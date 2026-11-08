@@ -1,0 +1,39 @@
+================= ECEN 689 Lab 10 answers =================
+Team: ____   Members present: ____
+Roles this week (name -> squad):
+  Run pilots (2):
+  Report analysts (2):
+  Macro/verification (2):
+
+C1 CTS: clock buffers inserted = ____   reported skew = ____
+C2 Why does one clock need thousands of buffers? (2 sentences, own words):
+
+C3 Reference-run literacy (docs/example_run):
+   worst congestion location = ____
+   antenna violations before/after repair = ____ / ____
+   total wirelength = ____
+C4 What is an antenna violation + how does a diode fix it? (2 sentences):
+
+C5 YOUR routing verdict: error.log empty? ____  last step dir = ____
+   SPEF files present (ls output pasted):
+
+C6 Lab 9 B9 prediction vs reality: were you right? What did you learn about
+   your frontier data? (3 sentences)
+
+C7 IF ANYTHING FAILED: DEBUG.md present? ____ (full credit requires: exact
+   first error line, step dir, diagnosis, the ONE fix applied, relaunch result)
+
+C8 SIGNOFF: paste the three lines:
+   DRC COUNT line:
+   LVS line:
+   error.log content (or "empty"):
+
+C9 TIMING TABLE (from *-stapostpnr/summary.rpt): worst rows
+   | corner | hold WNS | #hold | setup WNS | #setup |
+   | nom_tt |          |       |           |        |
+   | *_ss   |          |       |           |        |
+   | *_ff   |          |       |           |        |
+   Achieved period at SS = CLOCK_PERIOD + max(0, -SS_setup_WNS) = ____ ns
+
+C10 MACRO KIT: paste `ls -lh macro_kit/` and the PROVENANCE.txt md5 line.
+===========================================================
