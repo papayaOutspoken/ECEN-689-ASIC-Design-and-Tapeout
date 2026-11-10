@@ -1,0 +1,81 @@
+================= ECEN 689 Lab 10 answers =================
+Team: 5
+Members present: Jinzhan Li, Daniel Garcia, Elan Landau, Fidel Omusilibwa, Manoj Kallu, Shivang Bharti
+
+Roles this week (name -> squad):
+  Run pilots (2): Jinzhan Li, Daniel Garcia, Elan Landau, Fidel Omusilibwa, Manoj Kallu, Shivang Bharti
+  Report analysts (2): Jinzhan Li, Daniel Garcia, Elan Landau, Fidel Omusilibwa, Manoj Kallu, Shivang Bharti
+  Macro/verification (2): Jinzhan Li, Daniel Garcia, Elan Landau, Fidel Omusilibwa, Manoj Kallu, Shivang Bharti
+
+C1 CTS:
+   clock buffers inserted = 10,812
+   reported skew = -0.914726 ns (worst hold), +0.506452 ns (worst setup), nominal TT
+
+C2 Why does one clock need thousands of buffers? (2 sentences, own words):
+   A single clock drives a large number of flip-flops distributed across the CPU, creating significant fanout and capacitive loading.
+   Thousands of clock buffers are needed to distribute the clock reliably, maintain acceptable transition times, and minimize clock skew.
+
+C3 Reference-run literacy (docs/example_run):
+   worst congestion location = met1 (0.32% usage, zero overflow)
+   antenna violations before/after repair = 21 nets / 26 pins -> 0 nets / 0 pins
+   total wirelength = 57,175 um
+
+C4 What is an antenna violation + how does a diode fix it? (2 sentences):
+   An antenna violation occurs when charge accumulates on metal interconnects during fabrication, potentially damaging the thin gate oxide of connected transistors.
+   An antenna diode provides a discharge path that protects the gate oxide by releasing the accumulated charge.
+
+C5 YOUR routing verdict:
+   error.log empty? YES (0 bytes)
+   last step dir = 46-openroad-rcx
+
+   SPEF files present (ls output pasted):
+   46-openroad-rcx/nom/microwatt_top.nom.spef
+
+C6 Lab 9 B9 prediction vs reality (3 sentences):
+   Our Lab 9 prediction was correct: the selected 2900 x 3650 um floorplan successfully completed routing and parasitic extraction.
+   The global routing report showed zero overflow, supporting our prediction that the relatively low utilization of 42.18% would provide sufficient routing resources.
+   This result demonstrates that placement utilization and whitespace are useful indicators of routability, although successful placement alone cannot guarantee successful routing.
+
+C7 IF ANYTHING FAILED:
+   DEBUG.md present? N/A for routing recovery, as routing and RCX completed successfully.
+   Signoff reached the final verification stage, but saving the final views encountered an ENOSPC error; the affected output files were manually restored and verified.
+
+C8 SIGNOFF: paste the three lines:
+   DRC COUNT line:
+   [INFO] COUNT: 0
+
+   LVS line:
+   Circuits match uniquely.
+
+   error.log content:
+   empty (0 bytes)
+
+C9 TIMING TABLE (from *-stapostpnr/summary.rpt): worst rows
+
+   | corner | hold worst slack (ns) | #hold | setup worst slack (ns) | #setup |
+   |--------|-----------------------|-------|------------------------|--------|
+   | nom_tt | +0.2287               | 0     | +24.3830               | 0      |
+   | max_ss | +0.7001               | 0     | -2.0659                | 57     |
+   | max_ff | +0.0080               | 0     | +33.5311               | 0      |
+
+   Achieved period at SS = CLOCK_PERIOD + max(0, -SS_setup_WNS)
+                         = 50 + max(0, 2.065917)
+                         = 52.065917 ns
+
+C10 MACRO KIT:
+
+   ls -lh macro_kit/:
+   PROVENANCE.txt       192 B
+   lib/                 directory
+   metrics.json         18K
+   microwatt_top.gds     867M
+   microwatt_top.lef     88K
+   microwatt_top.nl.v    128M
+   microwatt_top.sdc     64K
+   spef/                directory
+   timing_summary.rpt   3.9K
+
+   PROVENANCE.txt md5 line:
+   7aaae754a93c1fb8ddbb507b303430ae  /mnt/shared-scratch/Yi_S/jl90/lab10_macro_kit/microwatt_top.gds
+
+===========================================================
