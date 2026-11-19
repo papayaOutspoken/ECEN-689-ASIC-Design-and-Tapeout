@@ -1,0 +1,65 @@
+
+
+================= ECEN 689 Lab 12 — freeze checklist =================
+Team: 5
+FROZEN CHIP RUN (paste lab12/FROZEN_RUN.txt content):
+chip/runs/RUN_2026-11-16_01-53-19/
+
+Seven commands, seven REAL outputs:
+1 error.log:
+bash-4.4$ cat $R/error.log
+_drc_error__count"' $R/final/metrics.json   # must be 0
+grep -m1 "COUNT" $R/*-magic-drc/magic-drc.log      # nonzero expected; oError while reading cell "CF_SRAM_1024x32_macro" (byte position 44100): Unknown layer/datatype in boundary, layer=67 type=10
+
+Error while reading cell "CF_SRAM_1024x32_macro" (byte position 44164): Unknown layer/datatype in boundary, layer=68 type=10
+
+Error while reading cell "CF_SRAM_1024x32_macro" (byte position 44228): Unknown layer/datatype in boundary, layer=69 type=10
+
+247 Magic DRC errors found. - deferred
+4050 Magic Illegal Overlap errors found. - deferred
+
+2 KLayout DRC ("klayout__drc_error__count" line from final/metrics.json):
+
+bash-4.4$ grep '"klayout__drc_error__count"' $R/final/metrics.json   # must be 0
+    "klayout__drc_error__count": 0,
+
+3 Magic DRC COUNT (+ one-line artifact note):
+bash-4.4$ grep -m1 "COUNT" $R/*-magic-drc/magic-drc.log      # nonzero expected; one-line artifact note
+[INFO] COUNT: 247
+
+4 LVS line:
+bash-4.4$ grep -m1 -ai "uniquely" $R/*-netgen-lvs/netgen-lvs.log
+Circuits match uniquely.
+
+5 timing table (whole summary.rpt, all 9 corners):
+bash-4.4$ cat $R/*-openroad-stapostpnr/summary.rpt            # whole table: the SS rows are at the bottom
+┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┓
+┃                      ┃ Hold     ┃ Reg to   ┃          ┃          ┃ of which  ┃ Setup    ┃           ┃          ┃           ┃ of which ┃           ┃          ┃
+┃                      ┃ Worst    ┃ Reg      ┃          ┃ Hold Vio ┃ reg to    ┃ Worst    ┃ Reg to    ┃ Setup    ┃ Setup Vio ┃ reg to   ┃ Max Cap   ┃ Max Slew ┃
+┃ Corner/Group         ┃ Slack    ┃ Paths    ┃ Hold TNS ┃ Count    ┃ reg       ┃ Slack    ┃ Reg Paths ┃ TNS      ┃ Count     ┃ reg      ┃ Violatio… ┃ Violati… ┃
+┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━┩
+│ Overall              │ -0.4598  │ 0.1140   │ -0.4598  │ 1        │ 0         │ 20.3391  │ 24.6390   │ 0.0000   │ 0         │ 0        │ 126       │ 604      │
+│ nom_tt_025C_1v80     │ 0.9894   │ 0.9894   │ 0.0000   │ 0        │ 0         │ 29.2010  │ 36.9397   │ 0.0000   │ 0         │ 0        │ 98        │ 265      │
+│ nom_ss_100C_1v60     │ 0.2351   │ 1.6780   │ 0.0000   │ 0        │ 0         │ 21.3886  │ 25.5985   │ 0.0000   │ 0         │ 0        │ 106       │ 543      │
+│ nom_ff_n40C_1v95     │ 0.3822   │ 0.3822   │ 0.0000   │ 0        │ 0         │ 32.4262  │ 41.2025   │ 0.0000   │ 0         │ 0        │ 98        │ 86       │
+│ min_tt_025C_1v80     │ 1.2304   │ 1.2304   │ 0.0000   │ 0        │ 0         │ 29.8764  │ 37.4128   │ 0.0000   │ 0         │ 0        │ 85        │ 227      │
+│ min_ss_100C_1v60     │ 0.9546   │ 1.9973   │ 0.0000   │ 0        │ 0         │ 22.4381  │ 26.4438   │ 0.0000   │ 0         │ 0        │ 88        │ 468      │
+│ min_ff_n40C_1v95     │ 0.6224   │ 0.6224   │ 0.0000   │ 0        │ 0         │ 32.9288  │ 41.5253   │ 0.0000   │ 0         │ 0        │ 84        │ 65       │
+│ max_tt_025C_1v80     │ 0.7262   │ 0.7262   │ 0.0000   │ 0        │ 0         │ 28.5013  │ 36.4016   │ 0.0000   │ 0         │ 0        │ 107       │ 307      │
+│ max_ss_100C_1v60     │ -0.4598  │ 1.3510   │ -0.4598  │ 1        │ 0         │ 20.3391  │ 24.6390   │ 0.0000   │ 0         │ 0        │ 126       │ 604      │
+│ max_ff_n40C_1v95     │ 0.1140   │ 0.1140   │ 0.0000   │ 0        │ 0         │ 31.8841  │ 40.8268   │ 0.0000   │ 0         │ 0        │ 105       │ 170      │
+└──────────────────────┴──────────┴──────────┴──────────┴──────────┴───────────┴──────────┴───────────┴──────────┴───────────┴──────────┴───────────┴──────────┘
+
+6 ls -lh of final/gds/chip_top.gds:
+bash-4.4$ ls -lh $R/final/gds/chip_top.gds
+-rw-r-----. 1 jl90 ecen-689-group5 948M Nov 17 01:37 chip/runs/RUN_2026-11-16_01-53-19//final/gds/chip_top.gds
+
+7 md5sum of final/gds/chip_top.gds:
+bash-4.4$ md5sum $R/final/gds/chip_top.gds                    # <- the integrity hash
+
+78dca29eef931412fac0fe191eaaad53  chip/runs/RUN_2026-11-16_01-53-19//final/gds/chip_top.gds
+
+FRAME CHECK: die W x H from metrics = ____ x ____  inside 3166.63 x 4766.63? YES required: YES
+bash-4.4$ grep '"design__die__bbox"' $R/final/metrics.json    # frame check
+    "design__die__bbox": "0.0 0.0 3160.0 4330.0",
+=======================================================================
