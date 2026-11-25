@@ -26,8 +26,7 @@ into one team package around Jinzhan's run, which was the only one passing every
 
 **Lab 12 (freeze).** I classified my chip's DRC result with `lab12/drc_where.py` as
 CASE 2 (core clean: `core macro KLayout errors (Lab 10): 0`) and completed the freeze
-checklist for the team's frozen run (Jinzhan's: KLayout 0, LVS match, reg-to-reg hold
-clean, 21,815.6 ns benchmark).
+checklist for the team's frozen run.
 
 ## 2. Problems I encountered
 
