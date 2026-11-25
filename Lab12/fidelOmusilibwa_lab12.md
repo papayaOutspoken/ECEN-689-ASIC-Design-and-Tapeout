@@ -1,4 +1,4 @@
-# Lab 12 individual report (whole project) — Fidel Makatia (Team 5)
+# Lab 12 individual report — Fidel Omusilibwa (Team 5)
 
 ## 1. What I personally did in this lab
 
@@ -87,8 +87,3 @@ which meant redoing Lab 10 (a 13+ hour CTS and routing cycle) right before the f
 tapeout; the team froze Jinzhan's run instead, which passes every gate. This problem is
 not resolved on my chip - the decision was to put the team's time into the clean run.
 
-**What I would redo.** (1) Put every core bus pin plus `clk`/`rst` on one edge with a
-pin-order file in Lab 10, before hardening - that single decision caused all of my
-Lab 11-12 DRC trouble. (2) Never open a run in KLayout through the flow before resuming
-it, and always check `state_in.json` before trusting a multi-hour resume. (3) Put run
-directories on scratch with the bind line from day one instead of after the disk filled.
