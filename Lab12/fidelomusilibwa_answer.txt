@@ -1,0 +1,70 @@
+================= ECEN 689 Lab 12 — freeze checklist =================
+Name: Fidel Omusilibwa (NetID fidelmakatia)
+FROZEN CHIP RUN (paste lab12/FROZEN_RUN.txt content):
+/mnt/shared-scratch/Yi_S/jl90/lab11_chip_runs/RUN_2026-11-16_01-53-19
+   (Frozen run used for the freeze. Gate check, all from this one run:
+    benchmark PASS 419 cycles (config unchanged) | KLayout DRC 0 | LVS "match uniquely" |
+    reg-to-reg hold 0 on every tt/ss row (the one max_ss entry is the rst input-port
+    path, Lab 11 D5 case) | die 3160 x 4330 inside the frame.)
+
+Seven commands, seven REAL outputs:
+1 error.log:
+Error while reading cell "CF_SRAM_1024x32_macro" (byte position 44100): Unknown layer/datatype in boundary, layer=67 type=10
+
+Error while reading cell "CF_SRAM_1024x32_macro" (byte position 44164): Unknown layer/datatype in boundary, layer=68 type=10
+
+Error while reading cell "CF_SRAM_1024x32_macro" (byte position 44228): Unknown layer/datatype in boundary, layer=69 type=10
+
+247 Magic DRC errors found. - deferred
+4050 Magic Illegal Overlap errors found. - deferred
+
+2 KLayout DRC ("klayout__drc_error__count" line from final/metrics.json):
+>>> PASTE the exact line printed by:  grep '"klayout__drc_error__count"' $R/final/metrics.json
+>>> (Lab 11 evidence for this run: "KLayout total violations: 0" over 257 rules - expect 0)
+
+3 Magic DRC COUNT (+ one-line artifact note):
+[INFO] COUNT: 247
+Note: Magic cannot read the ChipFoundry SRAM's layers 67/68/69 datatype 10 ("Unknown
+layer/datatype" in error.log) and flags false errors inside the vendor macro; KLayout reads
+the same GDS correctly and is the DRC authority (0). The 4050 Magic illegal overlaps all fall
+inside the SRAM's declared met2 pin shapes (obsm2-metal2 / obsm2-via2), the same
+abstract-view artifact.
+
+4 LVS line:
+Circuits match uniquely.
+
+5 timing table (whole summary.rpt, all 9 corners):
+┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━┓
+┃                      ┃ Hold     ┃ Reg to   ┃          ┃          ┃ of which  ┃ Setup    ┃           ┃          ┃           ┃ of which ┃           ┃          ┃
+┃                      ┃ Worst    ┃ Reg      ┃          ┃ Hold Vio ┃ reg to    ┃ Worst    ┃ Reg to    ┃ Setup    ┃ Setup Vio ┃ reg to   ┃ Max Cap   ┃ Max Slew ┃
+┃ Corner/Group         ┃ Slack    ┃ Paths    ┃ Hold TNS ┃ Count    ┃ reg       ┃ Slack    ┃ Reg Paths ┃ TNS      ┃ Count     ┃ reg      ┃ Violatio… ┃ Violati… ┃
+┡━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━┩
+│ Overall              │ -0.4598  │ 0.1140   │ -0.4598  │ 1        │ 0         │ 20.3391  │ 24.6390   │ 0.0000   │ 0         │ 0        │ 126       │ 604      │
+│ nom_tt_025C_1v80     │ 0.9894   │ 0.9894   │ 0.0000   │ 0        │ 0         │ 29.2010  │ 36.9397   │ 0.0000   │ 0         │ 0        │ 98        │ 265      │
+│ nom_ss_100C_1v60     │ 0.2351   │ 1.6780   │ 0.0000   │ 0        │ 0         │ 21.3886  │ 25.5985   │ 0.0000   │ 0         │ 0        │ 106       │ 543      │
+│ nom_ff_n40C_1v95     │ 0.3822   │ 0.3822   │ 0.0000   │ 0        │ 0         │ 32.4262  │ 41.2025   │ 0.0000   │ 0         │ 0        │ 98        │ 86       │
+│ min_tt_025C_1v80     │ 1.2304   │ 1.2304   │ 0.0000   │ 0        │ 0         │ 29.8764  │ 37.4128   │ 0.0000   │ 0         │ 0        │ 85        │ 227      │
+│ min_ss_100C_1v60     │ 0.9546   │ 1.9973   │ 0.0000   │ 0        │ 0         │ 22.4381  │ 26.4438   │ 0.0000   │ 0         │ 0        │ 88        │ 468      │
+│ min_ff_n40C_1v95     │ 0.6224   │ 0.6224   │ 0.0000   │ 0        │ 0         │ 32.9288  │ 41.5253   │ 0.0000   │ 0         │ 0        │ 84        │ 65       │
+│ max_tt_025C_1v80     │ 0.7262   │ 0.7262   │ 0.0000   │ 0        │ 0         │ 28.5013  │ 36.4016   │ 0.0000   │ 0         │ 0        │ 107       │ 307      │
+│ max_ss_100C_1v60     │ -0.4598  │ 1.3510   │ -0.4598  │ 1        │ 0         │ 20.3391  │ 24.6390   │ 0.0000   │ 0         │ 0        │ 126       │ 604      │
+│ max_ff_n40C_1v95     │ 0.1140   │ 0.1140   │ 0.0000   │ 0        │ 0         │ 31.8841  │ 40.8268   │ 0.0000   │ 0         │ 0        │ 105       │ 170      │
+└──────────────────────┴──────────┴──────────┴──────────┴──────────┴───────────┴──────────┴───────────┴──────────┴───────────┴──────────┴───────────┴──────────┘
+   Hold gate ("of which reg to reg" column): 0 on every tt and ss row.
+   The single hold entry (max_ss_100C_1v60, -0.4598 ns) is the rst input-port path
+   rst -> u_core/rst, set by the default 10 ns input delay (Lab 11 D5 case), not a
+   reg-to-reg path. Worst reg-to-reg hold: +0.1140 ns (max_ff). Setup positive at all
+   9 corners (worst +20.3391 ns, max_ss). Achieved SS period = 50 + 2.0659 (Lab 10 core
+   SS WNS) = 52.0659 ns, 19.21 MHz; 419 cycles x 52.0659 ns = 21,815.6 ns.
+
+6 ls -lh of final/gds/chip_top.gds:
+>>> PASTE the output of:  ls -lh $R/final/gds/chip_top.gds
+
+7 md5sum of final/gds/chip_top.gds:
+>>> PASTE the output of:  md5sum $R/final/gds/chip_top.gds
+>>> (the packager compares this hash with the GDS it packages - it must be real)
+
+FRAME CHECK: die W x H from metrics = 3160 x 4330  inside 3166.63 x 4766.63? YES required
+   YES - 6.63 um spare in width, 436.63 um spare in height.
+   >>> confirm with:  grep '"design__die__bbox"' $R/final/metrics.json   (expect "0.0 0.0 3160.0 4330.0")
+=======================================================================
