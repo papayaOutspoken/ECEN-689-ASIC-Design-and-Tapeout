@@ -20,12 +20,14 @@ every resumed stage.
 
 **Lab 11 (chip assembly).** I did the chip worksheet (H = 4050 -> die 4730, SRAM y 4340),
 ran three full chip assemblies, and traced every routing short and KLayout error to a
-single reset net crossing the core. I also merged all six members' Lab 11 submissions
+single reset net crossing the core. My chip completed the flow but with DRC errors
+(KLayout 663-843), and I chose not to keep fixing it (see section 3). I also merged all six members' Lab 11 submissions
 into one team package around Jinzhan's run, which was the only one passing every gate.
 
-**Lab 12 (freeze).** I confirmed with `lab12/drc_where.py` that my own chip failures were
-CASE 2 (core clean: `core macro KLayout errors (Lab 10): 0`), tested the CASE 2 settings
-and a met5-crossing variant, and prepared the freeze checklist for the team's frozen run.
+**Lab 12 (freeze).** I classified my chip's DRC result with `lab12/drc_where.py` as
+CASE 2 (core clean: `core macro KLayout errors (Lab 10): 0`) and completed the freeze
+checklist for the team's frozen run (Jinzhan's: KLayout 0, LVS match, reg-to-reg hold
+clean, 21,815.6 ns benchmark).
 
 ## 2. Problems I encountered
 
@@ -44,14 +46,14 @@ ERROR    last_run used without any existing runs
 OSError: [Errno 30] Read-only file system: '/mnt/nfs-scratch'
 ```
 
-**Lab 11 - DRC never reached 0 on my chip.** Three runs: 100 / 14 / 15 routing shorts,
+**Lab 11 - chip-level DRC on my assembly.** Three runs: 100 / 14 / 15 routing shorts,
 KLayout 696 / 663 / 843, each time one net (`net714`, `net721`, `net718`) against
 `inst:u_core` on met1.
 
-**Lab 12 - CASE 2 settings blocked routing.**
+**Lab 12 - CASE 2 settings on my assembly.**
 `[GRT-0116] Global routing finished with congestion` (met1 overflow 421, then met5 412).
 
-## 3. How each problem was resolved
+## 3. How each problem was resolved (or why I stopped)
 
 **CTS timeout.** The worst path showed a nor2 driving fanout 8,120 with 1.8 us slew, yet
 design repair (step 25) reported `Inserted 86651 buffers ... Remaining 0`. I counted
@@ -77,9 +79,13 @@ signoff and every later chip run.
 sides of the core (e.g. `wire714` at x = 110.9 um, flop `_173_` at x = 3050.7 um). My
 core has `clk`, `rst` and the instruction-bus control pins on its left edge but the data
 bus on the right, so the glue logic is split across it. Moving the chip `rst`/`clk` pins
-cut the shorts from 100 to 14 but never to 0. `drc_where.py` confirmed CASE 2; the
-reference settings then made global routing fail (GRT-0116) because that one net had no
-legal path. The team therefore froze Jinzhan's run, which passes every gate.
+cut the shorts from 100 to 14 but never to 0. `drc_where.py` confirmed CASE 2, and the
+reference CASE 2 settings made global routing fail (GRT-0116) because that one net had
+no legal path. The real fix was re-hardening the core with all its pins on one edge,
+which meant redoing Lab 10 (a 13+ hour CTS and routing cycle) right before the freeze.
+**I decided not to do that.** My chip was left with its DRC errors and was not used for
+tapeout; the team froze Jinzhan's run instead, which passes every gate. This problem is
+not resolved on my chip - the decision was to put the team's time into the clean run.
 
 **What I would redo.** (1) Put every core bus pin plus `clk`/`rst` on one edge with a
 pin-order file in Lab 10, before hardening - that single decision caused all of my
